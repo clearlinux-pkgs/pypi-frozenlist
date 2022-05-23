@@ -4,12 +4,14 @@
 #
 Name     : pypi-frozenlist
 Version  : 1.3.0
-Release  : 5
+Release  : 6
 URL      : https://files.pythonhosted.org/packages/f4/f7/8dfeb76d2a52bcea2b0718427af954ffec98be1d34cd8f282034b3e36829/frozenlist-1.3.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/f4/f7/8dfeb76d2a52bcea2b0718427af954ffec98be1d34cd8f282034b3e36829/frozenlist-1.3.0.tar.gz
 Summary  : A list-like structure which implements collections.abc.MutableSequence
 Group    : Development/Tools
 License  : Apache-2.0
+Requires: pypi-frozenlist-filemap = %{version}-%{release}
+Requires: pypi-frozenlist-lib = %{version}-%{release}
 Requires: pypi-frozenlist-license = %{version}-%{release}
 Requires: pypi-frozenlist-python = %{version}-%{release}
 Requires: pypi-frozenlist-python3 = %{version}-%{release}
@@ -24,6 +26,24 @@ frozenlist
 .. image:: https://github.com/aio-libs/frozenlist/workflows/CI/badge.svg
 :target: https://github.com/aio-libs/frozenlist/actions
 :alt: GitHub status for master branch
+
+%package filemap
+Summary: filemap components for the pypi-frozenlist package.
+Group: Default
+
+%description filemap
+filemap components for the pypi-frozenlist package.
+
+
+%package lib
+Summary: lib components for the pypi-frozenlist package.
+Group: Libraries
+Requires: pypi-frozenlist-license = %{version}-%{release}
+Requires: pypi-frozenlist-filemap = %{version}-%{release}
+
+%description lib
+lib components for the pypi-frozenlist package.
+
 
 %package license
 Summary: license components for the pypi-frozenlist package.
@@ -45,6 +65,7 @@ python components for the pypi-frozenlist package.
 %package python3
 Summary: python3 components for the pypi-frozenlist package.
 Group: Default
+Requires: pypi-frozenlist-filemap = %{version}-%{release}
 Requires: python3-core
 Provides: pypi(frozenlist)
 
@@ -55,13 +76,16 @@ python3 components for the pypi-frozenlist package.
 %prep
 %setup -q -n frozenlist-1.3.0
 cd %{_builddir}/frozenlist-1.3.0
+pushd ..
+cp -a frozenlist-1.3.0 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1649748715
+export SOURCE_DATE_EPOCH=1653330037
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -72,6 +96,15 @@ export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 -m build --wheel --skip-dependency-check --no-isolation
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
+python3 -m build --wheel --skip-dependency-check --no-isolation
+
+popd
 
 %install
 export MAKEFLAGS=%{?_smp_mflags}
@@ -82,9 +115,26 @@ pip install --root=%{buildroot} --no-deps --ignore-installed dist/*.whl
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
+pip install --root=%{buildroot}-v3 --no-deps --ignore-installed dist/*.whl
+popd
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
+
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-pypi-frozenlist
+
+%files lib
+%defattr(-,root,root,-)
+/usr/share/clear/optimized-elf/other*
 
 %files license
 %defattr(0644,root,root,0755)
