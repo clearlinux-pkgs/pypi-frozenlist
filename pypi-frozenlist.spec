@@ -4,7 +4,7 @@
 #
 Name     : pypi-frozenlist
 Version  : 1.3.1
-Release  : 12
+Release  : 13
 URL      : https://files.pythonhosted.org/packages/8a/95/229aacfe85daa28e2792481a98c336bc30d3729533e6a44db537880aca21/frozenlist-1.3.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/8a/95/229aacfe85daa28e2792481a98c336bc30d3729533e6a44db537880aca21/frozenlist-1.3.1.tar.gz
 Summary  : A list-like structure which implements collections.abc.MutableSequence
