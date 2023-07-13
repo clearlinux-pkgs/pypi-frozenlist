@@ -4,10 +4,10 @@
 # Using build pattern: pyproject
 #
 Name     : pypi-frozenlist
-Version  : 1.3.3
-Release  : 20
-URL      : https://files.pythonhosted.org/packages/e9/10/d629476346112b85c912527b9080944fd2c39a816c2225413dbc0bb6fcc0/frozenlist-1.3.3.tar.gz
-Source0  : https://files.pythonhosted.org/packages/e9/10/d629476346112b85c912527b9080944fd2c39a816c2225413dbc0bb6fcc0/frozenlist-1.3.3.tar.gz
+Version  : 1.4.0
+Release  : 21
+URL      : https://files.pythonhosted.org/packages/8c/1f/49c96ccc87127682ba900b092863ef7c20302a2144b3185412a08480ca22/frozenlist-1.4.0.tar.gz
+Source0  : https://files.pythonhosted.org/packages/8c/1f/49c96ccc87127682ba900b092863ef7c20302a2144b3185412a08480ca22/frozenlist-1.4.0.tar.gz
 Summary  : A list-like structure which implements collections.abc.MutableSequence
 Group    : Development/Tools
 License  : Apache-2.0
@@ -57,10 +57,10 @@ python3 components for the pypi-frozenlist package.
 
 
 %prep
-%setup -q -n frozenlist-1.3.3
-cd %{_builddir}/frozenlist-1.3.3
+%setup -q -n frozenlist-1.4.0
+cd %{_builddir}/frozenlist-1.4.0
 pushd ..
-cp -a frozenlist-1.3.3 buildavx2
+cp -a frozenlist-1.4.0 buildavx2
 popd
 
 %build
@@ -68,7 +68,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1685560165
+export SOURCE_DATE_EPOCH=1689260159
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
