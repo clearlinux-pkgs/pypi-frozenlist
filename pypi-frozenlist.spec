@@ -6,10 +6,10 @@
 # autospec commit: 65cf152
 #
 Name     : pypi-frozenlist
-Version  : 1.6.2
-Release  : 28
-URL      : https://files.pythonhosted.org/packages/5b/bf/a812e2fe6cb3f6c6cfc8d0303bf1742f2286004e5ec41ac8c89cf68cdb54/frozenlist-1.6.2.tar.gz
-Source0  : https://files.pythonhosted.org/packages/5b/bf/a812e2fe6cb3f6c6cfc8d0303bf1742f2286004e5ec41ac8c89cf68cdb54/frozenlist-1.6.2.tar.gz
+Version  : 1.7.0
+Release  : 29
+URL      : https://files.pythonhosted.org/packages/79/b1/b64018016eeb087db503b038296fd782586432b9c077fc5c7839e9cb6ef6/frozenlist-1.7.0.tar.gz
+Source0  : https://files.pythonhosted.org/packages/79/b1/b64018016eeb087db503b038296fd782586432b9c077fc5c7839e9cb6ef6/frozenlist-1.7.0.tar.gz
 Summary  : A list-like structure which implements collections.abc.MutableSequence
 Group    : Development/Tools
 License  : Apache-2.0
@@ -59,10 +59,10 @@ python3 components for the pypi-frozenlist package.
 
 
 %prep
-%setup -q -n frozenlist-1.6.2
-cd %{_builddir}/frozenlist-1.6.2
+%setup -q -n frozenlist-1.7.0
+cd %{_builddir}/frozenlist-1.7.0
 pushd ..
-cp -a frozenlist-1.6.2 buildavx2
+cp -a frozenlist-1.7.0 buildavx2
 popd
 
 %build
@@ -70,7 +70,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1749045958
+export SOURCE_DATE_EPOCH=1749567853
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
